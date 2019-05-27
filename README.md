@@ -16,7 +16,7 @@ fork from [My Blog](https://github.com/ZHENFENG13/My-Blog) , 该作者是在 [Ta
  博客首页：
  ![](img/index.png)
 
- 归档：
+ 主页：
  ![](img/metas.png)
 
  友链：
