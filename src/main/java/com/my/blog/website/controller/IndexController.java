@@ -1,5 +1,9 @@
 package com.my.blog.website.controller;
 
+import cn.hutool.http.HttpUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.my.blog.website.constant.WebConst;
 import com.my.blog.website.dto.ErrorCode;
@@ -8,10 +12,12 @@ import com.my.blog.website.dto.Types;
 import com.my.blog.website.exception.TipException;
 import com.my.blog.website.modal.Bo.ArchiveBo;
 import com.my.blog.website.modal.Bo.RestResponseBo;
+import com.my.blog.website.modal.Movie;
 import com.my.blog.website.modal.Vo.CommentVo;
 import com.my.blog.website.modal.Vo.MetaVo;
 import com.my.blog.website.service.IMetaService;
 import com.my.blog.website.service.ISiteService;
+import com.my.blog.website.service.impl.ITestServiceImpl;
 import com.my.blog.website.utils.PatternKit;
 import com.my.blog.website.utils.TaleUtils;
 import com.vdurmont.emoji.EmojiParser;
@@ -33,6 +39,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,6 +49,9 @@ import java.util.List;
 @Controller
 public class IndexController extends BaseController {
     private static final Logger LOGGER = LoggerFactory.getLogger(IndexController.class);
+
+    @Resource
+    private ITestServiceImpl testService;
 
     @Resource
     private IContentService contentService;
@@ -412,5 +422,35 @@ public class IndexController extends BaseController {
         cookie.setSecure(false);
         response.addCookie(cookie);
     }
+
+
+    /**
+     * 测试controller事务
+     *
+     * @param
+     * @author shijx
+     * @date 2019/5/28
+     * @retrun com.my.blog.website.modal.Bo.RestResponseBo
+     */
+    @GetMapping(value = "/save")
+    @Transactional(rollbackFor = TipException.class)
+    public RestResponseBo saveCategory() {
+        try {
+            String cname = "test112121212";
+            Integer mid = null;
+            testService.saveMeta(Types.CATEGORY.getType(), cname, mid);
+        } catch (Exception e) {
+            String msg = "分类保存失败";
+            if (e instanceof TipException) {
+                msg = e.getMessage();
+            } else {
+                LOGGER.error(msg, e);
+            }
+            return RestResponseBo.fail(msg);
+        }
+        return RestResponseBo.ok();
+    }
+
+
 
 }

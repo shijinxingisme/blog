@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='Test',active='links'">
+<body class="fixed-left">
+<div id="wrapper">
+    <div class="post-lists">
+        <div class="post-lists-body">
+            <div class="post-list-item"><p >今日电影 Top 10</p></div>
+            <div class="post-list-item" th:each="m: ${movie}">
+                <div class="post-list-item-container">
+                    <div class="item-label">
+                            <p th:text="${m.moviename}"></p>
+                            <p th:text="${m.Per_num}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="//cdn.bootcss.com/jquery-validate/1.15.1/jquery.validate.min.js"></script>
+<script src="//cdn.bootcss.com/jquery-validate/1.15.1/localization/messages_zh.min.js"></script>
+<script type="text/javascript">
+
+</script>
+</body>
+</html>
